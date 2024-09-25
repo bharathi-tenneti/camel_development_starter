@@ -1,0 +1,9 @@
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+    name: '{{ hawtio_project }}-operator-group'
+    namespace: '{{ hawtio_project }}'
+spec:
+    targetNamespaces:
+        - '{{ hawtio_project }}'

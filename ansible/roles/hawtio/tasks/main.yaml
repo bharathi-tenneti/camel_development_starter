@@ -1,0 +1,58 @@
+- name: Evaluate Namespace {{ hawtio_project }}
+  kubernetes.core.k8s:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: false
+    api_version: v1
+    kind: Namespace
+    name: '{{ hawtio_project }}'
+    state: present
+
+- name: Check Project Operator Group
+  kubernetes.core.k8s:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
+    state: present
+    resource_definition: "{{ lookup('template', 'operator-group.yml.j2') }}"
+
+- name: Evaluate HawtIO Subscription
+  kubernetes.core.k8s:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
+    state: present
+    api_version: operators.coreos.com/v1alpha1
+    kind: Subscription
+    definition:
+      metadata:
+        name: red-hat-hawtio-operator
+        namespace: '{{ hawtio_project }}'
+      spec:
+        channel: stable-v1
+        installPlanApproval: Automatic
+        name: red-hat-hawtio-operator
+        source: redhat-operators
+        sourceNamespace: openshift-marketplace
+
+- name: Check if HawtIo CRD exists
+  kubernetes.core.k8s_info:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
+    kind: CustomResourceDefinition
+    api_version: apiextensions.k8s.io/v1
+    name: hawtios.hawt.io
+  register: crd_result
+  retries: 220
+  delay: 10
+  until: crd_result.resources | length > 0
+
+- name: Check Hawtio Instance
+  kubernetes.core.k8s:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
+    state: present
+    namespace: '{{ hawtio_project }}'
+    resource_definition: "{{ lookup('file', 'hawtio-instance.yml') }}"
