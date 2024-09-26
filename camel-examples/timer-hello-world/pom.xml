@@ -9,6 +9,7 @@
     <version>0.0.1</version>
 
     <properties>
+        <skipITs>true</skipITs>
         <compiler-plugin.version>3.12.1</compiler-plugin.version>
         <failsafe.useModulePath>false</failsafe.useModulePath>
         <maven.compiler.release>17</maven.compiler.release>
@@ -17,8 +18,26 @@
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.version>3.8.2</quarkus.platform.version>
-        <skipITs>true</skipITs>
         <surefire-plugin.version>3.1.2</surefire-plugin.version>
+    
+        <!--
+            ==========================================================================
+            === Jolokia agent configuration for the connection with Hawtio Online
+            ==========================================================================
+    
+            It should use HTTPS and SSL client authentication at minimum.
+            The client principal should match those the Hawtio Online instance
+            provides (the default is `hawtio-online.hawtio.svc`).
+        -->
+        <jolokia.protocol>https</jolokia.protocol>
+        <jolokia.host>*</jolokia.host>
+        <jolokia.port>8778</jolokia.port>
+        <jolokia.useSslClientAuthentication>true</jolokia.useSslClientAuthentication>
+        <jolokia.caCert>/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt</jolokia.caCert>
+        <jolokia.clientPrincipal.1>cn=hawtio-online.hawtio.svc</jolokia.clientPrincipal.1>
+        <jolokia.extendedClientCheck>true</jolokia.extendedClientCheck>
+        <jolokia.discoveryEnabled>false</jolokia.discoveryEnabled>
+        <jolokia-version>2.1.0</jolokia-version>
     </properties>
 
     <dependencyManagement>
@@ -63,15 +82,50 @@
             <artifactId>quarkus-junit5</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-debug</artifactId>
+        </dependency>
+
         <!-- specific to this project use case -->
 		<dependency>
             <groupId>org.apache.camel.quarkus</groupId>
             <artifactId>camel-quarkus-timer</artifactId>
         </dependency>
 
+        <!-- hawtio dependencies see: https://hawt.io/docs/get-started.html#_running_a_quarkus_app -->
+        <dependency>
+            <groupId>io.hawt</groupId>
+            <artifactId>hawtio-quarkus</artifactId>
+            <version>4.1.0</version>
+        </dependency>        
+        <!-- Mandatory for enabling Camel management via JMX / Hawtio -->
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-management</artifactId>
+        </dependency>
+        <!-- (Optional) Required for Hawtio Camel route diagram tab -->
+        <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-jaxb</artifactId>
+        </dependency>    
+        <!-- Include the jolokia agent jvm for access to JMX beans.  -->
+        <dependency>
+            <groupId>org.jolokia</groupId>
+            <artifactId>jolokia-agent-jvm</artifactId>
+            <version>${jolokia-version}</version>
+            <classifier>javaagent</classifier>
+        </dependency>
+
     </dependencies>
 
     <build>
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+          </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>${quarkus.platform.group-id}</groupId>
@@ -129,34 +183,6 @@
         </plugins>
     </build>
 
-    <profiles>
-        <profile>
-            <id>native</id>
-            <activation>
-                <property>
-                    <name>native</name>
-                </property>
-            </activation>
-            <properties>
-                <skipITs>false</skipITs>
-                <quarkus.package.type>native</quarkus.package.type>
-            </properties>
-        </profile>
-        <profile>
-            <id>camel.debug</id>
-            <activation>
-                <property>
-                    <name>camel.debug</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.apache.camel.quarkus</groupId>
-                    <artifactId>camel-quarkus-debug</artifactId>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
+
 
 </project>
