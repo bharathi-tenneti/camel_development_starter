@@ -2,27 +2,27 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: s2i
-  namespace: quarkuscoffeeshop-cicd
 spec:
   description: create images using source-to-image
   params:
     - default: 'true'
-      description: >-
-        Verify the TLS on the registry endpoint (for push/pull to a non-TLS
-        registry)
+      description: Verify the TLS on the registry endpoint (for push/pull to a non-TLS registry)
       name: TLSVERIFY
       type: string
     - description: Location of the repo where image has to be pushed
       name: IMAGE
       type: string
-    - default: >-
-        registry.redhat.io/rhel8/buildah@sha256:99cae35f40c7ec050fed3765b2b27e0b8bbea2aa2da7c16408e2ca13c60ff8ee
+    - description: Path to dockerfile location
+      name: PATH
+      type: string
+    - default: 'registry.redhat.io/rhel8/buildah@sha256:99cae35f40c7ec050fed3765b2b27e0b8bbea2aa2da7c16408e2ca13c60ff8ee'
       description: The location of the buildah builder image.
       name: BUILDER_IMAGE
       type: string
   results:
     - description: Digest of the image just built.
       name: IMAGE_DIGEST
+      type: string
   steps:
     - command:
         - buildah
@@ -32,7 +32,7 @@ spec:
         - '--layers'
         - '-t'
         - $(params.IMAGE)
-        - .
+        - $(params.PATH)
       image: $(params.BUILDER_IMAGE)
       name: build
       resources: {}
@@ -40,6 +40,9 @@ spec:
         - mountPath: /var/lib/containers
           name: varlibcontainers
       workingDir: $(workspaces.source.path)
+      securityContext:
+        capabilities:
+          add: ["SETFCAP"]      
     - command:
         - buildah
         - push
@@ -58,6 +61,9 @@ spec:
         - mountPath: /var/lib/containers
           name: varlibcontainers
       workingDir: $(workspaces.source.path)
+      securityContext:
+        capabilities:
+          add: ["SETFCAP"]      
     - image: $(params.BUILDER_IMAGE)
       name: digest-to-results
       resources: {}

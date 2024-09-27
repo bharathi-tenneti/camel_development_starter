@@ -14,6 +14,10 @@ spec:
       description: Select Branch
       name: BRANCH_NAME
       type: string
+    - default: database/postgresql/Dockerfile
+      description: path to dockerfile
+      name: PATH
+      type: string
   tasks:
     - name: fetch-repository
       params:
@@ -26,7 +30,7 @@ spec:
         - name: revision
           value: $(params.BRANCH_NAME)
       taskRef:
-        kind: Task
+        kind: ClusterTask
         name: git-clone
       workspaces:
         - name: output
@@ -37,6 +41,8 @@ spec:
           value: 'false'
         - name: IMAGE
           value: $(params.QUAY_REPO)
+        - name: PATH
+          value: $(params.PATH)
       runAfter:
         - fetch-repository
       taskRef:

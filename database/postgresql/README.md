@@ -18,7 +18,7 @@ Postgresql image used in the Camel K Workshop
 
 ## Deploying the image
 
-    oc new-app --name postgresqldb -e POSTGRESQL_USER=redhat -e POSTGRESQL_PASSWORD=redhat -e POSTGRESQL_ADMIN_PASSWORD=redhat -e POSTGRESQL_DATABASE=camelk quay.io/gcamposo/postgresql-camelk:latest
+    oc new-app --name postgresqldb -e POSTGRESQL_USER=redhat -e POSTGRESQL_PASSWORD=redhat -e POSTGRESQL_ADMIN_PASSWORD=redhat -e POSTGRESQL_DATABASE=camelk quay.io/gcamposo/camel-demo-postgresql
 
 
 This image is available on Quay.io    

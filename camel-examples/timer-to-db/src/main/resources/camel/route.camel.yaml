@@ -1,0 +1,24 @@
+- route:
+    id: db-route
+    from:
+      id: from-1596
+      description: Trigger
+      uri: timer:hello-generator
+      parameters:
+        delay: "5000"
+        period: "10000"
+        repeatCount: "5"
+      steps:
+        - log:
+            id: log-2696
+            description: logger
+            message: Persisting data
+        - setBody:
+            id: setBody-2617
+            expression:
+              simple:
+                expression: "insert into messages (column1,column2,column3,column4,column5) values ('test1','test2','test3','test4','test5')"
+        - to:
+            id: to-4076
+            uri: jdbc:camel
+            parameters: {}
