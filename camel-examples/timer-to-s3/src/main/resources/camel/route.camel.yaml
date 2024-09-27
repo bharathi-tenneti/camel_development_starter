@@ -17,12 +17,19 @@
             id: setBody-2617
             expression:
               constant:
-                expression: '"this is my message"'
+                expression: select * from messages
+        - to:
+            id: to-4293
+            uri: jdbc:camel
+            parameters: {}
+        - marshal:
+            id: marshal-3094
+            csv: {}
         - setHeader:
             id: setHeader-3452
             expression:
               simple:
-                expression: file-${date:now:yyyyMMddHHmmss}.txt
+                expression: file-${date:now:yyyyMMddHHmmss}.csv
             name: CamelMinioObjectName
         - to:
             id: to-2726
