@@ -1,0 +1,34 @@
+- route:
+    id: timer-route
+    from:
+      id: from-1596
+      description: Trigger
+      uri: timer:hello-generator
+      parameters:
+        delay: "5000"
+        period: "10000"
+        repeatCount: "5"
+      steps:
+        - log:
+            id: log-2696
+            description: logger
+            message: Message Generated
+        - setBody:
+            id: setBody-2617
+            expression:
+              constant:
+                expression: '"this is my message"'
+        - setHeader:
+            id: setHeader-3452
+            expression:
+              simple:
+                expression: file-${date:now:yyyyMMddHHmmss}.txt
+            name: CamelMinioObjectName
+        - to:
+            id: to-2726
+            uri: minio:timer-bucket
+            parameters:
+              accessKey: "{{s3.accesskey}}"
+              endpoint: "{{s3.url}}"
+              region: "{{s3.region}}"
+              secretKey: "{{s3.secretkey}}"

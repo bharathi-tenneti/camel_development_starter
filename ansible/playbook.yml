@@ -9,7 +9,7 @@
 
     # Minio configuration
     minio_stateful: true
-    minio_project: '{{ tpa_project }}'
+    minio_project: '{{ camel_project }}'
     minio_key: minio
     minio_secret: minio123
     minio_region: eu-west-1
@@ -17,7 +17,7 @@
     gitops_project: camel-dev
 
     # pipeline
-    pipeline_project: demo-tap-pipeline
+    pipeline_project: '{{ camel_project }}'
 
     # Devspaces Configuration
     devspaces_enabled: true
@@ -54,3 +54,7 @@
     - name: Include HawtIO
       ansible.builtin.include_role:
         name: hawtio
+
+    - name: Include Minio
+      ansible.builtin.include_role:
+        name: minio

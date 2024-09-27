@@ -1,0 +1,49 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: postgresql-pipeline
+spec:
+  params:
+    - default: quay.io/gcamposo/camel-demo-postgresql
+      name: QUAY_REPO
+      type: string
+    - default: 'https://github.com/GuilhermeCamposo/camel_development_starter'
+      name: POSTGRESQL_REPO
+      type: string
+    - default: main
+      description: Select Branch
+      name: BRANCH_NAME
+      type: string
+  tasks:
+    - name: fetch-repository
+      params:
+        - name: url
+          value: $(params.POSTGRESQL_REPO)
+        - name: subdirectory
+          value: 'database/postgresql'
+        - name: deleteExisting
+          value: 'true'
+        - name: revision
+          value: $(params.BRANCH_NAME)
+      taskRef:
+        kind: Task
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+    - name: build-push-image
+      params:
+        - name: TLSVERIFY
+          value: 'false'
+        - name: IMAGE
+          value: $(params.QUAY_REPO)
+      runAfter:
+        - fetch-repository
+      taskRef:
+        kind: Task
+        name: s2i
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+  workspaces:
+    - name: shared-workspace
