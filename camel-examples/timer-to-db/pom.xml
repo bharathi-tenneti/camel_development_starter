@@ -102,21 +102,22 @@
         </dependency>
 
         <!-- hawtio dependencies see: https://hawt.io/docs/get-started.html#_running_a_quarkus_app -->
-        <dependency>
+        <!-- <dependency>
             <groupId>io.hawt</groupId>
             <artifactId>hawtio-quarkus</artifactId>
             <version>4.1.0</version>
-        </dependency>        
+        </dependency> -->
+        <!-- (Optional) Required for Hawtio Camel route diagram tab -->
+        <!-- <dependency>
+            <groupId>org.apache.camel.quarkus</groupId>
+            <artifactId>camel-quarkus-jaxb</artifactId>
+        </dependency>           -->
+        
         <!-- Mandatory for enabling Camel management via JMX / Hawtio -->
         <dependency>
             <groupId>org.apache.camel.quarkus</groupId>
             <artifactId>camel-quarkus-management</artifactId>
-        </dependency>
-        <!-- (Optional) Required for Hawtio Camel route diagram tab -->
-        <dependency>
-            <groupId>org.apache.camel.quarkus</groupId>
-            <artifactId>camel-quarkus-jaxb</artifactId>
-        </dependency>    
+        </dependency>  
         <!-- Include the jolokia agent jvm for access to JMX beans.  -->
         <dependency>
             <groupId>org.jolokia</groupId>

@@ -10,12 +10,11 @@ Postgresql image used in the demo
 
 ## How to build and publish the image using tekton
 
+Before running the pipeline be sure to add a secret called `quay-auth-secret` with Quay credentials in the pipeline namespace. 
+
     oc create -f tekton/source-pvc.yml
     oc apply -f tekton/s2i-task.yml
     oc apply -f tekton/postgresql-pipeline.yml
-
-Before running the pipeline be sure to add a secret called `quay-auth-secret` with Quay credentials in the pipeline namespace. 
-
 
 ## Deploying the image
 
