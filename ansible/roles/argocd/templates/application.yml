@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: timer-to-db
+  namespace: camel-dev
+spec:
+  destination:
+    name: in-cluster
+    namespace: camel-dev
+  source:
+    path: camel-examples/timer-to-db/k8s/
+    repoURL: 'https://github.com/GuilhermeCamposo/camel_development_starter.git'
+    targetRevision: HEAD
+  sources: []
+  project: camel-examples

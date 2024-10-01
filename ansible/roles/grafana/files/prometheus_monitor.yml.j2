@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: example
+spec:
+ podMonitorSelector: {}
+ ruleSelector: {}
+ podMonitorNamespaceSelector:
+   matchExpressions:
+   - key: threescale-monitored
+     operator: In
+     values:
+     - 'true'

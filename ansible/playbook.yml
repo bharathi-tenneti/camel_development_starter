@@ -19,6 +19,8 @@
     # pipeline
     pipeline_project: '{{ camel_project }}'
 
+    grafana_project: '{{ camel_project }}'
+
     # Devspaces Configuration
     devspaces_enabled: true
 
@@ -58,3 +60,7 @@
     - name: Include Minio
       ansible.builtin.include_role:
         name: minio
+
+    - name: Include Grafana
+      ansible.builtin.include_role:
+        name: grafana

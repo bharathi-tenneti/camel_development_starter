@@ -1,0 +1,61 @@
+# - name: Evaluate Prometheus Monitor
+#   kubernetes.core.k8s:
+#     api_key: '{{ token }}'
+#     host: '{{ server }}'
+#     validate_certs: '{{ verify_tls }}'
+#     state: present
+#     namespace: '{{ threescale_project }}'
+#     resource_definition: "{{ lookup('template', 'prometheus_monitor.yml.j2') }}"
+
+- name: Log in as super user with token on OpenShift 4
+  ansible.builtin.command: "oc login --token={{ token }}  --server={{ server }} --insecure-skip-tls-verify={{ insecure_skip_tls_verify }}"
+  when:
+    - token is defined
+    - token is not none
+    - token|trim() != ""
+  ignore_errors: false
+  register: r_login
+  changed_when: r_login.rc != 0
+
+- name: Generate Long Live Token for SA
+  ansible.builtin.command: "oc create token grafana-sa --duration=100000h -n {{ grafana_project }}"
+  when:
+    - token is defined
+    - token is not none
+    - token|trim() != ""
+  ignore_errors: false
+  register: r_create_token
+  changed_when: r_create_token.rc != 0
+
+- name: Set SA Token
+  ansible.builtin.set_fact:
+    grafana_token: "{{ r_create_token.stdout }}"
+
+- name: Evaluate Grafana ServiceAccount permissons
+  kubernetes.core.k8s:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
+    state: present
+    api_version: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    definition:
+      metadata:
+        name: thanos-metric-viewer
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: cluster-monitoring-view
+      subjects:
+        - kind: ServiceAccount
+          name: grafana-serviceaccount
+          namespace: '{{ grafana_project }}'
+
+- name: Evaluate Grafana Datasource
+  kubernetes.core.k8s:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
+    state: present
+    namespace: '{{ grafana_project }}'
+    resource_definition: "{{ lookup('template', 'grafana-datasource.yml.j2') }}"
