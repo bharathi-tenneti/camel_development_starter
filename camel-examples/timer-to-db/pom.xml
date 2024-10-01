@@ -40,6 +40,19 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
     <jolokia-version>2.1.0</jolokia-version>
 </properties>
 
+<repositories>
+    <repository>
+        <id>redhat</id>
+        <url>https://maven.repository.redhat.com/ga</url>
+    </repository>
+</repositories>
+<pluginRepositories>
+    <pluginRepository>
+        <id>redhat</id>
+        <url>https://maven.repository.redhat.com/ga</url>
+    </pluginRepository>
+</pluginRepositories>
+
 <dependencyManagement>
     <dependencies>
         <dependency>
