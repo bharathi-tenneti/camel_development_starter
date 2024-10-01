@@ -1,11 +1,11 @@
-# - name: Evaluate Prometheus Monitor
-#   kubernetes.core.k8s:
-#     api_key: '{{ token }}'
-#     host: '{{ server }}'
-#     validate_certs: '{{ verify_tls }}'
-#     state: present
-#     namespace: '{{ threescale_project }}'
-#     resource_definition: "{{ lookup('template', 'prometheus_monitor.yml.j2') }}"
+- name: Evaluate Prometheus Monitor
+  kubernetes.core.k8s:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
+    state: present
+    namespace: '{{ grafana_project }}'
+    resource_definition: "{{ lookup('file', 'prometheus_monitor.yml') }}"
 
 - name: Log in as super user with token on OpenShift 4
   ansible.builtin.command: "oc login --token={{ token }}  --server={{ server }} --insecure-skip-tls-verify={{ insecure_skip_tls_verify }}"
@@ -18,7 +18,7 @@
   changed_when: r_login.rc != 0
 
 - name: Generate Long Live Token for SA
-  ansible.builtin.command: "oc create token grafana-sa --duration=100000h -n {{ grafana_project }}"
+  ansible.builtin.command: "oc create token {{ grafana_sa_name }} --duration=100000h -n {{ grafana_project }}"
   when:
     - token is defined
     - token is not none
@@ -48,7 +48,7 @@
         name: cluster-monitoring-view
       subjects:
         - kind: ServiceAccount
-          name: grafana-serviceaccount
+          name: "{{ grafana_sa_name }}"
           namespace: '{{ grafana_project }}'
 
 - name: Evaluate Grafana Datasource
