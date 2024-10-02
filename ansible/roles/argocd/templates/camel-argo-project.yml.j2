@@ -2,14 +2,13 @@ apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: camel-examples
-  namespace: openshift-gitops
 spec:
   description: deployment for examples using in Camel demo
   destinations:
     - name: in-cluster
-      namespace: camel-dev
+      namespace: '{{ camel_project }}'
       server: 'https://kubernetes.default.svc'
   sourceNamespaces:
     - camel-dev
   sourceRepos:
-    - 'https://github.com/GuilhermeCamposo/camel_development_starter.git'
+    - '{{ camel_git_repo }}'

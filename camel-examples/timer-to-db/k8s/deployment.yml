@@ -15,6 +15,7 @@ spec:
         app.kubernetes.io/name: timer-to-db
         app.kubernetes.io/version: 0.0.1
         app.openshift.io/runtime: quarkus
+        demo: camel
     spec:
       containers:
         - resources: {}

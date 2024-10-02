@@ -16,7 +16,9 @@
 
 - name: Evaluate Grafana Operator
   kubernetes.core.k8s:
-    validate_certs: false
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
     state: present
     kind: Subscription
     api_version: operators.coreos.com/v1alpha1
@@ -33,6 +35,9 @@
 
 - name: Check if Grafana CRD exists
   kubernetes.core.k8s_info:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
     kind: CustomResourceDefinition
     api_version: apiextensions.k8s.io/v1
     name: grafanas.grafana.integreatly.org
@@ -43,26 +48,34 @@
 
 - name: Check Grafana CR
   kubernetes.core.k8s:
-    validate_certs: false
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
     state: present
     resource_definition: "{{ lookup('file', 'grafana-cr.yml') }}"
 
 - name: Check Grafana Instances
   kubernetes.core.k8s:
-    validate_certs: false
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
     state: present
     namespace: '{{ grafana_project }}'
     resource_definition: "{{ lookup('template', 'grafana-oauth-instance.yml.j2') }}"
 
 - name: Check Grafana Dashboard
   kubernetes.core.k8s:
-    validate_certs: false
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
     state: present
     namespace: '{{ grafana_project }}'
     resource_definition: "{{ lookup('file', 'grafana-dashboard.yml') }}"
 
 - name: Check User Permission
   kubernetes.core.k8s:
-    validate_certs: false
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
     state: present
     resource_definition: "{{ lookup('template', 'grafana-crb.yml.j2') }}"

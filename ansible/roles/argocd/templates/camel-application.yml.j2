@@ -6,10 +6,10 @@ metadata:
 spec:
   destination:
     name: in-cluster
-    namespace: camel-dev
+    namespace: '{{ camel_project }}'
   source:
     path: camel-examples/timer-to-db/k8s/
-    repoURL: 'https://github.com/GuilhermeCamposo/camel_development_starter.git'
+    repoURL: '{{ camel_git_repo }}'
     targetRevision: HEAD
   sources: []
   project: camel-examples

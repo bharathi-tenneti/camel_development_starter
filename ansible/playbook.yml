@@ -5,6 +5,7 @@
     verify_tls: false
     insecure_skip_tls_verify: true
     camel_project: camel-dev
+    camel_git_repo: https://github.com/GuilhermeCamposo/camel_development_starter.git
     hawtio_project: '{{ camel_project }}'
 
     # Minio configuration

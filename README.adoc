@@ -1,0 +1,29 @@
+# camel_development_starter
+
+Examples on how to using Camel tooling, plus leveraging integrations with OpenShift, to development applications.
+
+== Installing Using Ansible
+
+=== Ansible Prerequisites
+
+* `oc` client version >= 16
+* https://pypi.org/project/kubernetes/[Python K8s client] for https://docs.ansible.com/ansible/latest/collections/kubernetes/core/index.html[Ansible Kubernetes collection] 
+
+=== Parameters
+
+[options="header"]
+|=======================
+| Parameter | Example Value                                      | Definition
+| token     | sha256~vFanQbthlPKfsaldJT3bdLXIyEkd7ypO_XPygY1DNtQ | access token for a user with cluster-admin privileges
+| server    | https://api.mycluster.opentlc.com:6443             | OpenShift cluster API URL
+|=======================
+
+
+=== Deploying the demo
+
+----
+token=REPLACE_ME
+server=REPLACE_ME
+
+ansible-playbook -e token=${token} -e server=${server} playbook.yml
+----
