@@ -136,6 +136,10 @@ xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLS
         <groupId>org.apache.camel.quarkus</groupId>
         <artifactId>camel-quarkus-jackson</artifactId>
     </dependency>
+    <dependency>
+        <groupId>org.apache.camel.quarkus</groupId>
+        <artifactId>camel-quarkus-minio</artifactId>
+    </dependency>
     
     <!-- Mandatory for enabling Camel management via JMX / Hawtio -->
     <dependency>
