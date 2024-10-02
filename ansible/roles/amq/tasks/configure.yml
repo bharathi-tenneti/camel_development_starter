@@ -1,0 +1,11 @@
+- name: Evaluate AMQ CRs
+  kubernetes.core.k8s:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
+    state: present
+    namespace: '{{ amq_project }}'
+    resource_definition: "{{ lookup('file', item) }}"
+  loop:
+    - amq-instance.yml
+    - address.yml

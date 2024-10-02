@@ -1,0 +1,11 @@
+apiVersion: broker.amq.io/v1beta1
+kind: ActiveMQArtemisAddress
+metadata:
+  name: test
+spec:
+  addressName: test
+  password: admin
+  queueName: test
+  removeFromBrokerOnDelete: true
+  routingType: anycast
+  user: admin

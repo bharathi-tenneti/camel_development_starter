@@ -1,4 +1,4 @@
-- name: Install Trusted Application Pipeline
+- name: Install Camel Development Starter
   hosts: localhost
   vars:
     delete_demo: false
@@ -19,8 +19,8 @@
 
     # pipeline
     pipeline_project: '{{ camel_project }}'
-
     grafana_project: '{{ camel_project }}'
+    amq_project: '{{ camel_project }}'
 
     # Devspaces Configuration
     devspaces_enabled: true
@@ -65,3 +65,7 @@
     - name: Include Grafana
       ansible.builtin.include_role:
         name: grafana
+
+    - name: Include AMQ
+      ansible.builtin.include_role:
+        name: amq
