@@ -26,3 +26,13 @@
   loop:
     - argo-project.yml.j2
     - camel-argo-project.yml.j2
+
+- name: Evaluate ArgoCD Applications
+  kubernetes.core.k8s:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: false
+    state: present
+    resource_definition: "{{ lookup('template', item) }}"
+  loop:
+    - camel-application.yml.j2

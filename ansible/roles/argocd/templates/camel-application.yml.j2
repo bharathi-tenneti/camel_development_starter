@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: timer-to-db
-  namespace: camel-dev
+  namespace: '{{ camel_project }}'
 spec:
   destination:
     name: in-cluster
