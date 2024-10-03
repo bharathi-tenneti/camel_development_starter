@@ -44,7 +44,7 @@ spec:
         name: git-clone
       workspaces:
         - name: output
-          workspace: maven-repo
+          workspace: source-output
     - name: build
       params:
         - name: GOALS
@@ -55,13 +55,15 @@ spec:
       runAfter:
         - clone
       taskRef:
-        kind: ClusterTask
+        kind: Task
         name: maven
       workspaces:
         - name: source
-          workspace: maven-repo
+          workspace: source-output
         - name: maven-settings
           workspace: maven-settings
+        - name: maven-local-repo
+          workspace: maven-local-repo          
     - name: package
       params:
         - name: GOALS
@@ -73,13 +75,15 @@ spec:
       runAfter:
         - build
       taskRef:
-        kind: ClusterTask
+        kind: Task
         name: maven
       workspaces:
         - name: source
-          workspace: maven-repo
+          workspace: source-output
         - name: maven-settings
           workspace: maven-settings
+        - name: maven-local-repo
+          workspace: maven-local-repo 
     - name: build-container-image
       params:
         - name: IMAGE
@@ -95,7 +99,7 @@ spec:
         name: buildah
       workspaces:
         - name: source
-          workspace: maven-repo
+          workspace: source-output
   workspaces:
-    - name: maven-repo
+    - name: source-output
     - name: maven-settings

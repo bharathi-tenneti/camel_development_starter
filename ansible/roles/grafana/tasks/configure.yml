@@ -7,6 +7,20 @@
     namespace: '{{ grafana_project }}'
     resource_definition: "{{ lookup('file', 'prometheus_monitor.yml') }}"
 
+- name: Wait for Grafana SA
+  kubernetes.core.k8s_info:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
+    api_version: v1
+    kind: ServiceAccount
+    name: grafana-sa
+    namespace: '{{ grafana_project }}'
+  register: _cr
+  until: _cr.resources | list | length == 1
+  retries: 10
+  delay: 30
+
 - name: Log in as super user with token on OpenShift 4
   ansible.builtin.command: "oc login --token={{ token }}  --server={{ server }} --insecure-skip-tls-verify={{ insecure_skip_tls_verify }}"
   when:
