@@ -103,3 +103,4 @@ spec:
   workspaces:
     - name: source-output
     - name: maven-settings
+    - name: maven-local-repo
