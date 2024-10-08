@@ -1,0 +1,38 @@
+- route:
+    id: s3-route
+    from:
+      id: from-1596
+      description: Trigger
+      uri: timer:hello-generator
+      parameters:
+        delay: "5000"
+        period: "10000"
+        repeatCount: "1"
+      steps:
+        - log:
+            id: log-2696
+            description: logger
+            message: Message Generated
+        - setBody:
+            id: setBody-2617
+            expression:
+              constant:
+                expression: '{"message":" test"}'
+        - setHeaders:
+            id: setHeaders-3903
+            headers:
+              - expression:
+                  simple:
+                    expression: file-${date:now:yyyyMMddHHmmss}.json
+                name: CamelAwsS3Key
+              - expression:
+                  constant:
+                    expression: application/json
+                name: CamelAwsS3ContentType
+        - to:
+            id: to-3114
+            uri: aws2-s3://{{s3.bucket.name}}
+            parameters:
+              accessKey: "{{s3.access.key}}"
+              region: us-east-2
+              secretKey: "{{s3.secret.key}}"
