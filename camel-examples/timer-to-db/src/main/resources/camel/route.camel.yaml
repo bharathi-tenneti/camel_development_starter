@@ -13,11 +13,10 @@
             id: log-2696
             description: logger
             message: Persisting data
-        - setBody:
-            id: setBody-2617
-            expression:
-              simple:
-                expression: "insert into messages (column1,column2,column3,column4,column5) values ('test1','test2','test3','test4','test5')"
+        - bean:
+            id: bean-2361
+            method: createMessage
+            ref: messageBean
         - to:
             id: to-4076
             uri: jdbc:camel

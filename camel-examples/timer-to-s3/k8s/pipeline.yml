@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
-  name: timer-to-db
+  name: timer-to-s3
   namespace: camel-dev
   annotations:
     meta.helm.sh/release-name: quarkus-pipeline
@@ -18,11 +18,11 @@ spec:
       description: component source Git revision
       name: git-revision
       type: string
-    - default: camel-examples/timer-to-db/src/main/docker/Dockerfile.jvm
+    - default: camel-examples/timer-to-s3/src/main/docker/Dockerfile.jvm
       description: path to Dockerfile
       name: dockerfilePath
       type: string
-    - default: 'image-registry.openshift-image-registry.svc:5000/camel-dev/timer-to-db'
+    - default: 'image-registry.openshift-image-registry.svc:5000/camel-dev/timer-to-s3'
       description: container image
       name: image
       type: string
@@ -30,7 +30,7 @@ spec:
       description: image tag
       name: version
       type: string
-    - default: camel-examples/timer-to-db
+    - default: camel-examples/timer-to-s3
       description: path to the directory where to package and build image
       name: context-dir  
   tasks:

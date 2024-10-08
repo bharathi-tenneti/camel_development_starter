@@ -2,14 +2,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: timer-to-db
+  name: timer-to-s3
   namespace: '{{ camel_project }}'
 spec:
   destination:
     name: in-cluster
     namespace: '{{ camel_project }}'
   source:
-    path: camel-examples/timer-to-db/k8s/
+    path: camel-examples/timer-to-s3/k8s/
     repoURL: '{{ camel_git_repo }}'
     targetRevision: HEAD
   syncPolicy:
