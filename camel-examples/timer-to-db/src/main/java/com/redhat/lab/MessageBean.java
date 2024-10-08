@@ -2,7 +2,6 @@ package com.redhat.lab;
 
 import java.util.List;
 import java.util.Random;
-
 import org.apache.camel.Exchange;
 import io.quarkus.arc.Unremovable;
 import jakarta.inject.Named;
@@ -29,7 +28,7 @@ public class MessageBean {
          exchange.getIn().setHeader("col4", colors.get(random.nextInt(colors.size())));
          exchange.getIn().setHeader("col5", seasons.get(random.nextInt(seasons.size())));
 
-         exchange.getIn().setBody("insert into messages (column1,column2,column3,column4,column5) values (:?col1, :?col2, :?col3, :?col4,:?col5)");
+         exchange.getIn().setBody("insert into messages (column1,column2,column3,column4,column5) values (:?col1, :?col2, :?col3, :?col4, :?col5)");
 
     }
     

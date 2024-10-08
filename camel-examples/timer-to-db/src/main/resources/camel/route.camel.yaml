@@ -20,4 +20,5 @@
         - to:
             id: to-4076
             uri: jdbc:camel
-            parameters: {}
+            parameters:
+              useHeadersAsParameters: true
