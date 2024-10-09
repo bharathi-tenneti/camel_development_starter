@@ -73,3 +73,12 @@
     state: present
     namespace: '{{ grafana_project }}'
     resource_definition: "{{ lookup('template', 'grafana-datasource.yml.j2') }}"
+
+- name: Evaluate Pod Monitors
+  kubernetes.core.k8s:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
+    state: present
+    namespace: '{{ grafana_project }}'
+    resource_definition: "{{ lookup('file', 'prometheus_monitor.yml') }}"
