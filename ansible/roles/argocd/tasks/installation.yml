@@ -57,3 +57,20 @@
   retries: 20
   delay: 10
   until: r_gitops_pod.resources | list | length == 1
+
+- name: Evaluate ArgoCD permissions
+  kubernetes.core.k8s:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: false
+    state: present
+    resource_definition: "{{ lookup('file', 'crb.yml') }}"
+
+- name: Evaluate ArgoCD Instance
+  kubernetes.core.k8s:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: false
+    state: present
+    namespace: openshift-gitops
+    resource_definition: "{{ lookup('template', 'argo-instance.yml.j2') }}"

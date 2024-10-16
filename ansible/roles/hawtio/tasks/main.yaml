@@ -55,4 +55,4 @@
     validate_certs: '{{ verify_tls }}'
     state: present
     namespace: '{{ hawtio_project }}'
-    resource_definition: "{{ lookup('file', 'hawtio-instance.yml') }}"
+    resource_definition: "{{ lookup('template', 'hawtio-instance.yml.j2') }}"

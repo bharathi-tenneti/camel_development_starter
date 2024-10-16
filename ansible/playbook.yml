@@ -49,11 +49,6 @@
       ansible.builtin.include_role:
         name: argocd
 
-    - name: Include DevSpaces
-      ansible.builtin.include_role:
-        name: devspaces
-      when: devspaces_enabled | bool
-
     - name: Include HawtIO
       ansible.builtin.include_role:
         name: hawtio
