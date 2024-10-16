@@ -34,5 +34,5 @@
             uri: aws2-s3://{{env:S3_BUCKET_NAME}}
             parameters:
               accessKey: "{{env:S3_ACCESS_KEY}}"
-              region: us-east-2
+              region: "{{env:S3_REGION}}"
               secretKey: "{{env:S3_SECRET_KEY}}"
