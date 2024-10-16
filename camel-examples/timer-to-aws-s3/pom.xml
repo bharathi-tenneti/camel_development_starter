@@ -10,15 +10,15 @@
 
     <properties>
         <skipITs>true</skipITs>
-        <compiler-plugin.version>3.12.1</compiler-plugin.version>
         <failsafe.useModulePath>false</failsafe.useModulePath>
+        <compiler-plugin.version>3.12.1</compiler-plugin.version>
+        <surefire-plugin.version>3.1.2</surefire-plugin.version>
         <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
-        <quarkus.platform.version>3.8.2</quarkus.platform.version>
-        <surefire-plugin.version>3.1.2</surefire-plugin.version>
+        <quarkus.platform.group-id>com.redhat.quarkus.platform</quarkus.platform.group-id>
+        <quarkus.platform.version>3.8.6.redhat-00005</quarkus.platform.version>
     
         <!--
             ==========================================================================
@@ -39,6 +39,19 @@
         <jolokia.discoveryEnabled>false</jolokia.discoveryEnabled>
         <jolokia-version>2.1.0</jolokia-version>
     </properties>
+ 
+    <repositories>
+        <repository>
+            <id>redhat</id>
+            <url>https://maven.repository.redhat.com/ga</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>redhat</id>
+            <url>https://maven.repository.redhat.com/ga</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <dependencyManagement>
         <dependencies>
