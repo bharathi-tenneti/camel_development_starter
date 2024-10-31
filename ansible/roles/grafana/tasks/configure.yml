@@ -82,3 +82,4 @@
     state: present
     namespace: '{{ grafana_project }}'
     resource_definition: "{{ lookup('file', 'prometheus_monitor.yml') }}"
+  when: gitops_enabled
