@@ -21,6 +21,7 @@
     pipeline_project: '{{ camel_project }}'
     grafana_project: '{{ camel_project }}'
     amq_project: '{{ camel_project }}'
+    gitops_enabled: false
 
     # Devspaces Configuration
     devspaces_enabled: true
@@ -44,10 +45,12 @@
     - name: Include Tekton
       ansible.builtin.include_role:
         name: tekton
+      when: gitops_enabled
 
     - name: Include ArgoCD
       ansible.builtin.include_role:
         name: argocd
+      when: gitops_enabled
 
     - name: Include HawtIO
       ansible.builtin.include_role:
