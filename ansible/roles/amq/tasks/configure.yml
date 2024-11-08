@@ -9,3 +9,4 @@
   loop:
     - amq-instance.yml
     - address.yml
+    - https-route.yml

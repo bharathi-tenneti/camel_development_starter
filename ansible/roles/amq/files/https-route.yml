@@ -1,0 +1,17 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: amq-console
+  labels: {}
+spec:
+  to:
+    kind: Service
+    name: amq-instance-wconsj-0-svc
+    weight: 100
+  port:
+    targetPort: wconsj-0
+  wildcardPolicy: None
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: ''
+    destinationCACertificate: ''

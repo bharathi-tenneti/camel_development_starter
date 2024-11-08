@@ -29,3 +29,20 @@
   until: _crd.resources | list | length == 1
   retries: 10
   delay: 30
+
+- name: Wait Tekton Controller
+  kubernetes.core.k8s_info:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: false
+    api_version: v1
+    kind: Pod
+    namespace: openshift-pipelines
+    label_selectors:
+      - app = tekton-pipelines-controller
+    field_selectors:
+      - status.phase=Running
+  register: r_gitops_pod
+  retries: 20
+  delay: 10
+  until: r_gitops_pod.resources | list | length == 1

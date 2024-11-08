@@ -15,13 +15,13 @@
     minio_secret: minio123
     minio_region: eu-west-1
 
-    gitops_project: camel-dev
+    gitops_project: '{{ camel_project }}'
 
     # pipeline
     pipeline_project: '{{ camel_project }}'
     grafana_project: '{{ camel_project }}'
     amq_project: '{{ camel_project }}'
-    gitops_enabled: false
+    gitops_enabled: true
 
     # Devspaces Configuration
     devspaces_enabled: true
@@ -67,3 +67,8 @@
     - name: Include AMQ
       ansible.builtin.include_role:
         name: amq
+
+    - name: Include DevSpaces
+      ansible.builtin.include_role:
+        name: devspaces
+      when: devspaces_enabled | bool
