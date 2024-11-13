@@ -8,7 +8,7 @@
     name: '{{ pipeline_project }}'
     state: present
 
-- name: Evaluate Tekton Required Files
+- name: Evaluate Tekton PVCs
   kubernetes.core.k8s:
     api_key: '{{ token }}'
     host: '{{ server }}'
@@ -18,5 +18,16 @@
     resource_definition: "{{ lookup('file', item) }}"
   loop:
     - maven-local-pvc.yml
-    - maven-task.yml
     - source-pvc.yml
+
+- name: Evaluate Tekton Tasks
+  kubernetes.core.k8s:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
+    state: present
+    namespace: '{{ pipeline_project }}'
+    resource_definition: "{{ lookup('file', 'maven-task.yml') }}"
+  register: crd_result
+  retries: 220
+  delay: 10
