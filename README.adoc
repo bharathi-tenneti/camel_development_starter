@@ -1,6 +1,6 @@
 # camel_development_starter
 
-Examples on how to using Camel tooling, plus leveraging integrations with OpenShift, to development applications.
+Examples on how to use Camel tooling, plus leveraging integrations with OpenShift, to development applications.
 
 == Installing Using Ansible
 
