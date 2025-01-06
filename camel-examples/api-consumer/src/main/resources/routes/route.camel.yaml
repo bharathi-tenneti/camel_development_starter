@@ -1,0 +1,13 @@
+- rest:
+    openApi:
+      specification: openapi-spec.json
+- route:
+    id: sample-route
+    from:
+      uri: direct:someOperationId
+      parameters: {}
+      steps:
+        - log:
+            message: request received
+        - setBody:
+            simple: '{"received": true }'
