@@ -1,0 +1,21 @@
+- route:
+    id: route-1717
+    from:
+      id: from-1083
+      uri: rest
+      parameters:
+        consumes: application/xml
+        method: post
+        path: /transform
+        produces: application/xml
+      steps:
+        - step:
+            id: kaoto-datamapper-1f50e1fb
+            steps:
+              - to:
+                  id: kaoto-datamapper-xslt-5380
+                  uri: xslt-saxon:kaoto-datamapper-1f50e1fb.xsl
+                  parameters: {}
+        - log:
+            id: log-1698
+            message: message received
