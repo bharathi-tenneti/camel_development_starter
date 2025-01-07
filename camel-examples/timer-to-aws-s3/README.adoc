@@ -1,0 +1,13 @@
+= Timer to AWS S3 example
+
+== How to run it 
+
+In order to connect to the S3 bucket you will need to provide connection information. To avoid persisting that information, in this example, I'm using environment variables.
+Set the following S3 environemnt variables before running `mvn quarkus:dev`:
+
+----
+export S3_BUCKET_NAME=
+export S3_ACCESS_KEY=
+export S3_SECRET_KEY=
+export S3_REGION=
+----
