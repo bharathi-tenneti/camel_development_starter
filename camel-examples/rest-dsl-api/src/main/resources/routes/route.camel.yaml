@@ -1,0 +1,18 @@
+- route:
+    id: sample-route
+    from:
+      id: from-1929
+      description: get helloworld
+      uri: rest
+      parameters:
+        method: get
+        path: /samples
+      steps:
+        - log:
+            id: log-9803
+            message: request received
+        - setBody:
+            id: setBody-3397
+            expression:
+              constant:
+                expression: Hello World!

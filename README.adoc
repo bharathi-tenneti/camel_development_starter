@@ -1,6 +1,21 @@
-# camel_development_starter
+= Camel Development Starter
 
 Examples on how to use Camel tooling, plus leveraging integrations with OpenShift, to development applications.
+
+== Tools currently available
+
+== Integration Examples
+
+* AMQ broker for messaging
+* MinIO for Object Storage
+* Postgresql for database connection
+
+== Utility Tools
+
+* ARGOCD for application deployment
+* Tekton for buildinf Camel apps
+* Devspaces and devfile to work with Camel apps
+* Grafana using OpenShift's Prometheus Workload Monitoring
 
 == Installing Using Ansible
 
