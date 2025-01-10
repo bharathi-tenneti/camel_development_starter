@@ -1,4 +1,5 @@
 - rest:
+    id: rest-config
     openApi:
       specification: openapi-spec.json
 - route:
