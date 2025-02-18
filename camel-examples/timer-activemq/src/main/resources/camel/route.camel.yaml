@@ -1,0 +1,30 @@
+- route:
+    id: timer-route
+    from:
+      id: from-1596
+      description: Trigger
+      uri: timer:hello-generator
+      parameters: {}
+      steps:
+        - log:
+            id: log-2696
+            description: logger
+            message: Hello World
+        - setBody:
+            id: setBody-1471
+            expression:
+              simple:
+                expression: this is my message
+        - to:
+            id: to-3129
+            uri: activemq
+            parameters:
+              connectionFactory: "#brokerCF"
+              destinationName: "{{broker.queue.name}}"
+- beans:
+    - name: brokerCF
+      properties:
+        password: "{{broker.password}}"
+        userName: "{{broker.username}}"
+        brokerURL: "{{broker.url}}"
+      type: "org.apache.activemq.ActiveMQConnectionFactory"
