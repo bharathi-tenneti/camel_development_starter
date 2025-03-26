@@ -3,14 +3,14 @@
 		"sourceBody": {
 			"type": "XML Schema",
 			"filePath": [
-				"camel-examples/kaoto-datamapper/schemas/shiporder.xsd"
+				"src/main/resources/schemas/shiporder.xsd"
 			]
 		},
 		"sourceParameters": {},
 		"targetBody": {
 			"type": "XML Schema",
 			"filePath": [
-				"camel-examples/kaoto-datamapper/schemas/item.xsd"
+				"src/main/resources/schemas/item.xsd"
 			]
 		},
 		"xsltPath": "kaoto-datamapper-1f50e1fb.xsl"

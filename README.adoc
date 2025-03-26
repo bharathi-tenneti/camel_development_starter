@@ -2,6 +2,11 @@
 
 Examples on how to use Camel tooling, plus leveraging integrations with OpenShift, to development applications.
 
+[NOTE]
+====
+To work with Java Projects, open each Java project individually. Some plugins require root folder configuration to work properly.
+====
+
 == Tools currently available
 
 == Integration Examples
